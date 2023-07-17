@@ -1,8 +1,8 @@
 {
-  "name": "count-your-days",
+  "name": "timeplay",
+  "homepage": "https://s7chak.github.io/timeplay",
   "version": "0.0.0",
   "description": "A simple example deployed using react-codesandboxer",
-  "main": "index.js",
   "dependencies": {
     "font-awesome": "4.7.0",
     "moment": "2.29.4",

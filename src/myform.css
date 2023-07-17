@@ -1,61 +1,73 @@
 :root {
-  --background-color-light: #ffffff; /* Light background color */
-  --text-color-light: #111111; /* Dark font color for light theme */
-  --background-color-dark: #111111; /* Dark background color */
-  --text-color-dark: #ffffff; /* White font color for dark theme */
+  #dark {
+		--lighter: #CBD6F0;
+		--accent: #6484cd;
+		--background-primary: #0A0D14;
+		--background-secondary: #141A29;
+		--background-secondary-alt: #141A29;
+		--foreground-primary: #a8b5c3;	
+		--purple: #492dd5ec;
+	}
+	#light {
+		--lighter: #0A0D14;
+		--accent: #1f3eb8;
+		--background-primary: #f3f7ff;
+		--background-secondary: #CBD6F0;
+		--background-secondary-alt: #CBD6F0;
+		--foreground-primary: #141A29;
+		--purple: #492dd5ec;
+	}
 }
 
 body {
-  background-color: var(--background-color-light);
-  color: var(--text-color-light);
+  background-color: var(--background-primary);
+  color: var(--accent);
   font-family: Rajdhani, sans-serif;
   margin: 0;
   padding: 0;
   display: block;
   align-items: center;
   justify-items: center;
+  transition: background-color 1s ease-in-out;
 }
 
 .container {
   position: relative;
-  top: 2%;
-  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  width: 100vw;
+  height: 95vh;
+  overflow: hidden;
   margin: 0 auto;
   padding: 20px;
-  background-color: var(--background-color-light);
-  color: var(--text-color-light);
-}
-
-.container.dark-theme {
-  background-color: var(--background-color-dark);
-  color: var(--text-color-dark);
-}
-
-.container.light-theme {
-  background-color: var(--background-color-light);
-  color: var(--text-color-light);
+  background-color: var(--background-primary);
+  color: var(--accent);
+  transition: background-color 1s ease-in-out;
 }
 
 .bar {
-  position: absolute;
-  width: 90vw;
+  position: relative;
+  width: 100vw;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   justify-items: center;
-  background: var(--background-color-light);
+  background-color: var(--background-primary);
+  transition: background-color 1s ease-in-out;
 }
 .right {
   position: absolute;
   right: 2%;
 }
 .ic {
+  margin-right: 1vw;
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
 h1 {
-  font-family: "Source Code Pro" monospace;
+  font-family: 'Rajdhani';
   font-size: 24px;
   margin-bottom: 20px;
   margin: 0;
@@ -63,19 +75,56 @@ h1 {
   padding: 10px 5px;
 }
 
-.input-container {
-  margin-bottom: 20px;
+.first-container {
   position: relative;
-  top: 20vh;
+  margin-bottom: 20px;
+  top: 5%;
   width: 100vw;
+  height: 18vh;
   display: flex;
   flex-direction: row;
+  justify-content: left;
+}
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+  top: 10%;
+  width: 50vw;
+  height: 18vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .dateform {
-  width: 40vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
-.saveform {
+.buttonbar {
+  position: relative;
+  top: 0.5em;
+  height: 40px;
+}
+.result {
+  right: 0;
+}
+.result-container {
+  top: 10%;
+  position: relative;
   width: 40vw;
+  height: 30vh;
+  border-radius: 0.5em;
+  padding: 10px 10px;
+  border: 1px var(--accent) solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.saveform {
+  position: absolute;
+  top: 50vh;
+  width: 50vw;
 }
 text {
   font-size: 20px;
@@ -86,50 +135,34 @@ label {
   margin-bottom: 5px;
 }
 button {
-  margin-top: 10%;
-  margin-left: 5px;
-  border-radius: 20%;
-  background-color: var(--background-color-light);
-  outline: none;
-  font-size: 15px;
+  border-radius: 0.2em;
+  font-size: 16px;
+  width: auto;
+  cursor: pointer;
 }
-.buttonbar {
-  margin-top: 30px;
+
+.sbutton {
+  margin-left: 0.5em;
+  border-radius: 0.2em;
+  font-size: 16px;
+  width: auto;
+  cursor: pointer;
 }
+
 .tinput,
 .date-input {
-  width: 100%;
+  width: 50%;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid var(--text-color-light);
-  background-color: var(--background-color-light);
+  border: 2px solid var(--accent);
+  background-color: var(--background-primary);
   color: var(--text-color-light);
   border-radius: 0.2rem;
 }
-
-.container.dark-theme .date-input {
-  border: 1px solid var(--text-color-dark);
-  background-color: var(--background-color-dark);
-  color: var(--text-color-dark);
+.tinput {
+  width: 50%;
 }
 
-.container.light-theme .date-input {
-  border: 1px solid var(--text-color-light);
-  background-color: var(--background-color-light);
-  color: var(--text-color-light);
-}
-.result {
-  position: relative;
-  width: 80vw;
-}
-.result-container {
-  position: absolute;
-  top: 15vh;
-  width: 80vw;
-  border-radius: 0.5em;
-  padding: 3px 20px;
-  border: 1px solid;
-}
 .savedlist {
   position: relative;
   top: 25vh;

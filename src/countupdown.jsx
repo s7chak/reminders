@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FaMoon } from "react-icons/fa";
 import "./myform.css";
 
-const CountApp = () => {
+const CountApp = (props) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [theme, setTheme] = useState("light");
   const [daysCount, setDaysCount] = useState(null);
@@ -43,48 +43,9 @@ const CountApp = () => {
       const days = Math.abs(Math.floor(duration.asDays()));
       const hours = Math.abs(duration.hours());
       const minutes = Math.abs(duration.minutes());
-      let seconds = Math.abs(duration.seconds());
+      const seconds = Math.abs(duration.seconds());
       setWord(future ? "till" : "since");
       setDaysCount([days, hours, minutes, seconds]);
-      setInterval(() => {
-        setDaysCount((prevState) => {
-          let newSeconds = future ? prevState[3] - 1 : prevState[3] + 1;
-          let newMinutes = prevState[2];
-          let newHours = prevState[1];
-          let newDays = prevState[0];
-
-          if (newSeconds === 60) {
-            newSeconds = 0;
-            newMinutes = newMinutes + 1;
-          }
-
-          if (newMinutes === 60) {
-            newMinutes = 0;
-            newHours = newHours + 1;
-          }
-
-          if (newHours === 24) {
-            newHours = 0;
-            newDays += 1;
-          }
-
-          if (newSeconds === 0) {
-            newSeconds = 59;
-            newMinutes = newMinutes - 1;
-          }
-
-          if (newMinutes === 0) {
-            newMinutes = 59;
-            newHours = newHours - 1;
-          }
-
-          if (newHours === 0) {
-            newHours = 23;
-            newDays -= 1;
-          }
-          return [newDays, newHours, newMinutes, newSeconds];
-        });
-      }, 1000);
     }
   };
 
@@ -101,41 +62,66 @@ const CountApp = () => {
 
       setSavedDates((prevSavedDates) => [...prevSavedDates, newSavedDate]);
     }
-
     setSelectedDate(null);
     setName("");
     setIsSaved(true);
   };
 
   return (
-    <div className={`${theme} container`}>
+    <div className={`container ${theme}`}>
       <div className="bar">
-        <h1>Countdown App</h1>
+        <h1>Count Your Days</h1>
         <div className="right">
           <button className="ic">
-            <FaMoon onClick={toggleTheme}>Toggle Theme</FaMoon>
+            <FaMoon onClick={props.changeTheme}></FaMoon>
           </button>
         </div>
       </div>
-      <div className="input-container">
-        <div className="dateform">
-          <label htmlFor="date" className="text">
-            Select a date
-          </label>
-          <DatePicker
-            id="date"
-            selected={selectedDate}
-            onChange={handleDateChange}
-            dateFormat="yyyy/MM/dd"
-            // minDate={new Date()}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={15}
-            timeCaption="Time"
-            className="date-input"
-          />
+      <div className="first-container">
+        <div className="input-container">
+          <div className="dateform">
+            <label htmlFor="date" className="text">
+              Select a date
+            </label>
+            <DatePicker
+              id="date"
+              selected={selectedDate}
+              onChange={handleDateChange}
+              dateFormat="yyyy/MM/dd"
+              // minDate={new Date()}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              timeCaption="Time"
+              className="date-input"
+            />
+          </div>
+          <div className='buttonbar'>
+            <button
+            onClick={handleCountClick}
+            disabled={!selectedDate || countButtonClicked}
+            >
+                Count
+            </button>
+          </div>
         </div>
-        <div className="saveform">
+      
+        <div className='result'>
+          <div className="result-container">
+            {daysCount !== null && selectedDate && countButtonClicked && (
+              <div><h3>
+                Time {word} {selectedDate.toString()}:
+              </h3></div>
+            )}
+            {daysCount !== null && selectedDate && countButtonClicked && (
+              <div><p>{`${daysCount[0]} Days ${daysCount[1]} Hours ${daysCount[2]} Minutes ${daysCount[3]} Seconds`}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="saveform">
           <label htmlFor="name" className="text">
             Name:
           </label>
@@ -146,30 +132,9 @@ const CountApp = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-        </div>
-      </div>
-      <div className="buttonbar">
-        <button
-          onClick={handleCountClick}
-          disabled={!selectedDate || countButtonClicked}
-        >
-          Count
-        </button>
-        <button onClick={handleSaveClick} disabled={!name}>
+          <button onClick={handleSaveClick} disabled={!name} className="sbutton">
           Save
         </button>
-      </div>
-      <div className="result">
-        <div className="result-container">
-          {daysCount !== null && selectedDate && (
-            <h3>
-              Time {word} {selectedDate.toString()}:
-            </h3>
-          )}
-          {daysCount !== null && selectedDate && (
-            <p>{`${daysCount[0]} Days ${daysCount[1]} Hours ${daysCount[2]} Minutes ${daysCount[3]} Seconds`}</p>
-          )}
-        </div>
       </div>
       {isSaved && (
         <div className="savedlist">
@@ -189,3 +154,47 @@ const CountApp = () => {
 };
 
 export default CountApp;
+
+
+
+
+
+// setInterval(() => {
+//   setDaysCount((prevState) => {
+//     let newSeconds = future ? prevState[3] - 1 : prevState[3] + 1;
+//     let newMinutes = prevState[2];
+//     let newHours = prevState[1];
+//     let newDays = prevState[0];
+
+//     if (newSeconds === 60) {
+//       newSeconds = 0;
+//       newMinutes = newMinutes + 1;
+//     }
+
+//     if (newMinutes === 60) {
+//       newMinutes = 0;
+//       newHours = newHours + 1;
+//     }
+
+//     if (newHours === 24) {
+//       newHours = 0;
+//       newDays += 1;
+//     }
+
+//     if (newSeconds === 0) {
+//       newSeconds = 59;
+//       newMinutes = newMinutes - 1;
+//     }
+
+//     if (newMinutes === 0) {
+//       newMinutes = 59;
+//       newHours = newHours - 1;
+//     }
+
+//     if (newHours === 0) {
+//       newHours = 23;
+//       newDays -= 1;
+//     }
+//     return [newDays, newHours, newMinutes, newSeconds];
+//   });
+// }, 1000);
