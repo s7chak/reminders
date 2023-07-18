@@ -3,7 +3,15 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaMoon } from "react-icons/fa";
+import Cookies from 'js-cookie';
 import "./myform.css";
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css';
+
+
+
+
+
 
 const CountApp = (props) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -11,7 +19,9 @@ const CountApp = (props) => {
   const [daysCount, setDaysCount] = useState(null);
   const [countButtonClicked, setCountButtonClicked] = useState(false);
   const [word, setWord] = useState("since");
+  const [titleWord, setTitleWord] = useState("Days");
   const [isSaved, setIsSaved] = useState(false);
+  const [isListSaved, setIsListSaved] = useState(false);
   const [name, setName] = useState("");
   const [savedDates, setSavedDates] = useState([]);
 
@@ -24,131 +34,132 @@ const CountApp = (props) => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  };
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    console.log(newTheme);
-  };
-
-  const handleCountClick = () => {
-    if (selectedDate) {
+    if (date) {
       setCountButtonClicked(true);
-      const today = moment();
-      const targetDate = moment(selectedDate);
-      const duration = moment.duration(today.diff(selectedDate));
-      let future = targetDate.diff(today) > 0;
-      const days = Math.abs(Math.floor(duration.asDays()));
-      const hours = Math.abs(duration.hours());
-      const minutes = Math.abs(duration.minutes());
-      const seconds = Math.abs(duration.seconds());
-      setWord(future ? "till" : "since");
-      setDaysCount([days, hours, minutes, seconds]);
+      let result = calculateInterval(date);
+      setWord(result[1] ? "till" : "since");
+      setDaysCount(result[0]);
     }
   };
+
+  const handleClearClick = (date) => {
+    setSavedDates([]);
+  };
+  
 
   useEffect(() => {
     setCountButtonClicked(false);
   }, [selectedDate]);
 
+  const handleRefreshClick = () => {
+
+  }
+
   const handleSaveClick = () => {
     if (selectedDate && name) {
       const newSavedDate = {
         name,
-        date: selectedDate
+        date: selectedDate,
       };
-
+  
       setSavedDates((prevSavedDates) => [...prevSavedDates, newSavedDate]);
+      Cookies.set('savedDates', JSON.stringify([...savedDates, newSavedDate]));
     }
-    setSelectedDate(null);
     setName("");
     setIsSaved(true);
   };
 
+  useEffect(() => {
+    const savedDatesFromCookies = Cookies.get('savedDates');
+    if (savedDatesFromCookies) {
+      setIsListSaved(true);
+      setSavedDates(JSON.parse(savedDatesFromCookies));
+    }
+  }, []);
+
   return (
-    <div className={`container ${theme}`}>
-      <div className="bar">
-        <h1>Count Your Days</h1>
-        <div className="right">
-          <button className="ic">
-            <FaMoon onClick={props.changeTheme}></FaMoon>
-          </button>
-        </div>
-      </div>
-      <div className="first-container">
-        <div className="input-container">
+    <div className={`container`}>
+
+    {(isSaved || isListSaved) && (
+        <div className="list-container">
+          <div className="savedlist">
+            <h2>Your Saves</h2>
+            <div className="listbuttonbar">
+              <div onClick={handleRefreshClick} className="sbutton">
+                Refresh
+              </div>
+              <div onClick={handleClearClick} className="sbutton">
+                Clear List
+              </div>
+            </div>
+              <div className="savedtable">
+                <SavedDatesTable savedDates={savedDates} />
+              </div>
+            </div>
+          </div>
+      )}
+
+
+      <div className="setup-container">
+        <div className="form-container">
+          <div className="bar">
+            <div><span className="gheader">Find a Day or Time</span></div>
+            <div className="right">
+              <button className="ic">
+                <FaMoon onClick={props.changeTheme}></FaMoon>
+              </button>
+            </div>
+          </div>
+          
           <div className="dateform">
-            <label htmlFor="date" className="text">
-              Select a date
-            </label>
-            <DatePicker
+            <Datetime
               id="date"
-              selected={selectedDate}
+              value={selectedDate}
               onChange={handleDateChange}
-              dateFormat="yyyy/MM/dd"
-              // minDate={new Date()}
-              showTimeSelect
+              dateFormat="YYYY/MM/DD"
               timeFormat="HH:mm"
-              timeIntervals={15}
-              timeCaption="Time"
+              input={false}
               className="date-input"
             />
-          </div>
-          <div className='buttonbar'>
-            <button
-            onClick={handleCountClick}
-            disabled={!selectedDate || countButtonClicked}
-            >
-                Count
-            </button>
           </div>
         </div>
       
         <div className='result'>
           <div className="result-container">
-            {daysCount !== null && selectedDate && countButtonClicked && (
+            {daysCount !== null && selectedDate && (
               <div><h3>
-                Time {word} {selectedDate.toString()}:
+                Time {word} {moment(selectedDate).format("YYYY-MM-DD HH:mm")}:
               </h3></div>
             )}
-            {daysCount !== null && selectedDate && countButtonClicked && (
+            {daysCount !== null && selectedDate && (
               <div><p>{`${daysCount[0]} Days ${daysCount[1]} Hours ${daysCount[2]} Minutes ${daysCount[3]} Seconds`}</p>
               </div>
             )}
           </div>
         </div>
-      </div>
 
-      <div className="saveform">
-          <label htmlFor="name" className="text">
-            Name:
-          </label>
+        <div className="saveform">
           <input
             className="tinput"
             type="text"
             id="name"
+            placeholder="Set a name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button onClick={handleSaveClick} disabled={!name} className="sbutton">
-          Save
-        </button>
-      </div>
-      {isSaved && (
-        <div className="savedlist">
-          <h2>Saved Views</h2>
-          {savedDates.map((savedDate, index) => (
-            <div key={index}>
-              <p>
-                {index + 1}. {savedDate.name} :{" "}
-              </p>
-              <p>{savedDate.date.toString()}</p>
+          <div className="buttonbar">
+            <div onClick={handleSaveClick} disabled={!name} className="sbutton">
+              Save Ann
             </div>
-          ))}
-        </div>
-      )}
+            <div onClick={handleSaveClick} disabled={!name} className="sbutton">
+              Save Month
+            </div>
+            <div onClick={handleSaveClick} disabled={!name} className="sbutton">
+              Save Date
+            </div>`
+          </div>
+      </div>
+      </div>
     </div>
   );
 };
@@ -156,6 +167,99 @@ const CountApp = (props) => {
 export default CountApp;
 
 
+const calculateInterval = (date) => {
+  const today = moment();
+  const targetDate = moment(date);
+  const duration = moment.duration(today.diff(date));
+  const future = targetDate.diff(today) > 0;
+  const days = Math.abs(Math.floor(duration.asDays()));
+  const hours = Math.abs(duration.hours());
+  const minutes = Math.abs(duration.minutes());
+  const seconds = Math.abs(duration.seconds());
+
+  let res = [[days, hours, minutes, seconds],future];
+
+  return res;
+}
+const calculateDaysSinceOrTill = (date) => {
+  const today = moment();
+  const targetDate = moment(date);
+  const daysInYear = moment(today.year(), "YYYY").isLeapYear() ? 366 : 365;
+  const targetDateMMDD = targetDate.format("MM-DD");
+  let targetDateThisYear = moment().month(targetDate.month()).date(targetDate.date());
+  const past = today.diff(targetDateThisYear, 'days') > 0;
+  targetDateThisYear = moment().month(targetDate.month()).date(targetDate.date());
+  const daysSinceLast = past ? today.diff(targetDateThisYear, 'days') : daysInYear + today.diff(targetDateThisYear, 'days') ;
+  const nextDate = targetDateThisYear.add(past?1:0, 'year');
+  const daysTillNext = nextDate.diff(today, 'days');
+
+
+  let resMessagePast = "";
+  let resMessageFuture = "";
+  resMessagePast = "Days since last: " + daysSinceLast;
+  resMessageFuture = "Days till next: " + daysTillNext;
+
+  let resMessage = [resMessagePast,resMessageFuture];
+  
+  return resMessage;
+}
+
+
+const formatDate = (date) => {
+  let resString = moment(date).format("yyyy-MM-DD");
+  return resString;
+}
+
+const formatDays = (dayCount) => {
+  let resString = dayCount[0] +" Days "+ dayCount[1]+" Hours " + dayCount[2] + " Minutes " + dayCount[3] + " Seconds";
+  return resString;
+}
+
+const SavedDatesTable = ({ savedDates }) => {
+  const [expandedRow, setExpandedRow] = useState(null);
+
+  const handleRowClick = (index) => {
+    if (expandedRow === index) {
+      setExpandedRow(null); // Collapse the row if it's already expanded
+    } else {
+      setExpandedRow(index);
+    }
+  };
+
+  return (
+    <table className="saved-dates-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {savedDates.map((savedDate, index) => (
+          <React.Fragment key={index}>
+            <tr className="mainrow" onClick={() => handleRowClick(index)}>
+              <td>{savedDate.name}</td>
+              <td>{formatDate(savedDate.date)}</td>              
+            </tr>
+            {expandedRow === index && (
+              <>
+                <tr className="expanded-row">
+                  <td colSpan="2">{calculateDaysSinceOrTill(savedDate.date)[0]}</td>
+                </tr>
+                <tr className="expanded-row">
+                  <td colSpan="2">{calculateDaysSinceOrTill(savedDate.date)[1]}</td>
+                </tr>
+                <tr className="expanded-row">
+                  <td colSpan="2">{formatDays(calculateInterval(savedDate.date)[0])}</td>
+                </tr>
+              </>
+            )}
+          </React.Fragment>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 
 

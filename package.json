@@ -1,8 +1,8 @@
 {
-  "name": "timeplay",
+  "name": "reminders",
   "name": "",
   "version": "1.0.0",
-  "homepage": "https://s7chak.github.io/timeplay",
+  "homepage": "https://s7chak.github.io/reminders",
   "private": false,
   "scripts": {
     "build": "react-scripts build",
@@ -29,6 +29,7 @@
     "moment": "2.29.4",
     "react": "18.2.0",
     "react-datepicker": "4.16.0",
+    "react-datetime": "3.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.8.0",
     "react-jsx-runtime": "1.0.0",
@@ -48,7 +49,7 @@
     "typescript": "^4.7.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
-    "vite":"^4.3.9"
+    "js-cookie": "3.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

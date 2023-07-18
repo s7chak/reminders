@@ -1,4 +1,5 @@
 :root {
+  font-family: "Rajdhani sans";
   #dark {
 		--lighter: #CBD6F0;
 		--accent: #6484cd;
@@ -22,98 +23,91 @@
 body {
   background-color: var(--background-primary);
   color: var(--accent);
-  font-family: Rajdhani, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: block;
-  align-items: center;
-  justify-items: center;
   transition: background-color 1s ease-in-out;
+  
 }
 
 .container {
   position: relative;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  top: 0;
+  align-items: center;
   width: 100vw;
-  height: 95vh;
-  overflow: hidden;
+  height: 100vh;
+  overflow-y: scroll;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px;
   background-color: var(--background-primary);
   color: var(--accent);
   transition: background-color 1s ease-in-out;
 }
 
-.bar {
+.setup-container {
   position: relative;
-  width: 100vw;
-  display: inline-flex;
-  flex-direction: row;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
-  background-color: var(--background-primary);
-  transition: background-color 1s ease-in-out;
-}
-.right {
-  position: absolute;
-  right: 2%;
-}
-.ic {
-  margin-right: 1vw;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-h1 {
-  font-family: 'Rajdhani';
-  font-size: 24px;
-  margin-bottom: 20px;
-  margin: 0;
-  width: 50vw;
-  padding: 10px 5px;
+  justify-content: center;
+  border: 1px var(--accent) solid;
+  border-radius: 0.5em;
+  padding-bottom: 30px;
 }
 
-.first-container {
+.form-container {
   position: relative;
-  margin-bottom: 20px;
-  top: 5%;
-  width: 100vw;
-  height: 18vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-}
-.input-container {
-  position: relative;
-  margin-bottom: 20px;
-  top: 10%;
-  width: 50vw;
-  height: 18vh;
+  top: 1%;
+  left: 0;
+  right: 0;
+  width: 40vw;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border: 5px var(--lighter) solid;
+  border-radius: 0.5em;
+}
+.bar {
+  top: 0;
+  width: 40vw;
+  background-color: var(--background-primary);
+  transition: background-color 1s ease-in-out;
+  border: 1px var(--accent) solid;
+}
+.gheader {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+.right {
+  align-items: right;
+  justify-items: right;
 }
 .dateform {
-  position: relative;
+  width: 40vw;
   display: flex;
   flex-direction: column;
 }
-.buttonbar {
-  position: relative;
-  top: 0.5em;
-  height: 40px;
+.dateinput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid var(--accent);
+  background-color: var(--background-primary) !important;
+  color: var(--text-color-light);
+  border-radius: 0.2rem;
 }
-.result {
-  right: 0;
-}
+
 .result-container {
-  top: 10%;
-  position: relative;
-  width: 40vw;
-  height: 30vh;
+  position: absolute;
+  top: 1%;
+  right: 0;
+  width: 20vw;
+  height: auto;
   border-radius: 0.5em;
+  margin-left: 10px;
   padding: 10px 10px;
   border: 1px var(--accent) solid;
   display: flex;
@@ -121,19 +115,34 @@ h1 {
   align-items: center;
 }
 
+
+
+
+
 .saveform {
-  position: absolute;
-  top: 50vh;
+  position: relative;
   width: 50vw;
+  margin-top: 2%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: left;
 }
-text {
-  font-size: 20px;
+.buttonbar {
+  position: relative;
+  top: 0.5em;
+  height: 40px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.listbuttonbar {
+  margin: 5px;
+  width: 90%;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
+
 button {
   border-radius: 0.2em;
   font-size: 16px;
@@ -142,20 +151,29 @@ button {
 }
 
 .sbutton {
-  margin-left: 0.5em;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0.7em;
   border-radius: 0.2em;
   font-size: 16px;
-  width: auto;
+  width: 5em;
+  height: 2em;
   cursor: pointer;
+  color: var(--lighter);
+  background-color: var(--background-secondary);
+  border: 1px solid var(--accent);
+  
 }
 
-.tinput,
-.date-input {
-  width: 50%;
+.tinput {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 2px solid var(--accent);
-  background-color: var(--background-primary);
+  background-color: var(--background-primary) !important;
   color: var(--text-color-light);
   border-radius: 0.2rem;
 }
@@ -163,11 +181,48 @@ button {
   width: 50%;
 }
 
-.savedlist {
+.list-container {
   position: relative;
-  top: 25vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-secondary);
+}
+.savedlist {
   width: 80vw;
   border-radius: 0.5em;
   padding: 3px 20px;
   border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.savedtable {
+  width: 60vw;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--accent);
+  border-radius: 0.5em;
+  margin-bottom: 20px;
+}
+table {
+  margin: 20px;
+  padding: 20px;
+
+}
+th {
+  text-align: left;
+  width: 20vw;
+}
+td {
+  cursor: pointer;
+}
+.mainrow {
+  border: 1px solid var(--accent);
+  border-radius: 0.5rem;
 }
