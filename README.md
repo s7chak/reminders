@@ -1,9 +1,6 @@
-Certainly! Here's an example README.md file for your React app:
+# The Count-Your-Days App
 
-```
-# The Timer App
-
-This is a simple React app that allows you to count down or up to a selected date and save anniversaries or events.
+This is a simple experimental React app that allows you to count down or up to a selected date and save anniversaries or events.
 
 ## Features
 
@@ -58,12 +55,3 @@ npm run build
 
 This will create a `build` folder with the optimized and minified production build of the app.
 
-## Contributing
-
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-```
