@@ -34,7 +34,8 @@
     "react-icons": "4.8.0",
     "react-jsx-runtime": "1.0.0",
     "react-scripts": "^5.0.1",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "framer-motion": "^10.12.16"
   },
   "keywords": [],
   "devDependencies": {

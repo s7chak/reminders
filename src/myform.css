@@ -1,5 +1,6 @@
 :root {
-  font-family: "Rajdhani sans";
+  font-family: Rajdhani sans;
+  margin: 0;
   #dark {
 		--lighter: #CBD6F0;
 		--accent: #6484cd;
@@ -24,7 +25,9 @@ body {
   background-color: var(--background-primary);
   color: var(--accent);
   transition: background-color 1s ease-in-out;
-  
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
 }
 
 .container {
@@ -51,7 +54,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px var(--accent) solid;
   border-radius: 0.5em;
   padding-bottom: 30px;
 }
@@ -66,20 +68,26 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 5px var(--lighter) solid;
   border-radius: 0.5em;
 }
 .bar {
   top: 0;
-  width: 40vw;
+  width: 100%;
+  padding: 5px;
   background-color: var(--background-primary);
   transition: background-color 1s ease-in-out;
   border: 1px var(--accent) solid;
+  display: flex;
+}
+.right {
+  margin-left: 60%;
+  align-items: right;
+  width: auto;
 }
 .gheader {
   font-size: 16px;
   font-weight: 800;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 .right {
   align-items: right;
@@ -157,14 +165,14 @@ button {
   justify-content: center;
   position: relative;
   margin: 0.7em;
+  padding: 0.4em;
+  width: 8em;
   border-radius: 0.2em;
   font-size: 16px;
-  width: 5em;
-  height: 2em;
   cursor: pointer;
   color: var(--lighter);
   background-color: var(--background-secondary);
-  border: 1px solid var(--accent);
+  border: 0.15em solid var(--accent);
   
 }
 
@@ -187,9 +195,9 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-secondary);
 }
 .savedlist {
+  background-color: var(--background-secondary);
   width: 80vw;
   border-radius: 0.5em;
   padding: 3px 20px;
@@ -213,16 +221,23 @@ button {
 table {
   margin: 20px;
   padding: 20px;
-
 }
 th {
   text-align: left;
   width: 20vw;
 }
-td {
+tr {
   cursor: pointer;
 }
+
 .mainrow {
-  border: 1px solid var(--accent);
+  border: 2px solid var(--accent);
   border-radius: 0.5rem;
+}
+
+.expanded-row {
+  background-color: var(--background-primary);
+  width: 100%;
+  height: 40px;
+  text-align: center;
 }
